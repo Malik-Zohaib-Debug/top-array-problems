@@ -1,6 +1,8 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
+// space complexity O(1) and time complexity 0(n^2)
 int getArrayEquilibriumIndexOfAnArray(int *arr, int size)
 {
 
@@ -20,6 +22,36 @@ int getArrayEquilibriumIndexOfAnArray(int *arr, int size)
         }
 
         if (sumLeft == sumRight)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+// space complexity O(n) and time complexity 0(n)
+int getArrayEquilibriumIndexOfAnArrayOptimized(int *arr, int size)
+{
+    vector<int> pref(size - 1, 0);
+    vector<int> suff(size - 1, 0);
+
+    pref[0] = arr[0];
+    suff[size - 1] = arr[size - 1];
+
+    for (int i = 1; i < size; i++)
+    {
+        pref[i] = pref[i - 1] + arr[i];
+    }
+
+    for (int i = size - 2; i >= 0; i--)
+    {
+        suff[i] = suff[i + 1] + arr[i];
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        if (pref[i] == suff[i])
         {
             return i;
         }
